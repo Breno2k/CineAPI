@@ -11,7 +11,7 @@ const Footer = () => {
             <div className={styles.footer_content}>
                 <div className={styles.footer_text}>
                     <h3>CineAPI</h3>
-                    <p>Developed by <span>Your Name</span></p>
+                    <p>Developed by <span>Breno Melo</span></p>
                 </div>
 
                 <div className={styles.social_links}>
