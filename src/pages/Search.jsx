@@ -8,7 +8,7 @@ import { useSearchParams } from "react-router-dom"
 import MovieCard from "../components/MovieCard"
 
 // CSS
-import styles from './Movie.module.css'
+import styles from "./Search.module.css"
 
 const searchURL = import.meta.env.VITE_SEARCH
 const apiKey = import.meta.env.VITE_API_KEY
@@ -42,15 +42,17 @@ const Search = () => {
 
 
     return (
-        <div className={styles.container}>
-            <h2 className={styles.title}>
-                Results for: <span className={styles.query_text}>{query}</span>
-            </h2>
-            <div className={styles.movies_container}>
-                {movies.length === 0 && <p>Loading...</p>}
+        <div className={styles.search_page}>
+            <h1>
+                Search results for: <span className={styles.query_text}>{query}</span>
+            </h1>
+            <div className={styles.search_results}>
+                {movies.length === 0 && (
+                    <p className={styles.no_results}>No movies found for "{query}"</p>
+                )}
                 {movies.length > 0 && movies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
             </div>
-        </div>
+        </div >
     )
 }
 
