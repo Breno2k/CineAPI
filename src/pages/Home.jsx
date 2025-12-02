@@ -1,9 +1,13 @@
 // react
 import { useState, useEffect } from "react"
+import MovieCard from "../components/MovieCard";
 
 // Dados da API
 const moviesURL = import.meta.env.VITE_API;
 const apiKey = import.meta.env.VITE_API_KEY;
+
+// CSS
+import styles from "./Movie.module.css"
 
 
 const Home = () => {
@@ -28,11 +32,11 @@ const Home = () => {
     }, [])
 
     return (
-        <div className="container">
-            <h2 className="title">Melhores Filmes:</h2>
-            <div className="movies_container">
-                {topMovies === 0 && <p>Carregando...</p>}
-                {topMovies && topMovies.map((movie) => <p>{movie.title}</p>)}
+        <div className={styles.container}>
+            <h2 className={styles.title}>The best Movies:</h2>
+            <div className={styles.movies_container}>
+                {topMovies === 0 && <p>Loading...</p>}
+                {topMovies && topMovies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
             </div>
 
         </div>
