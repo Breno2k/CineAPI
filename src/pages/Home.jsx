@@ -35,8 +35,8 @@ const Home = () => {
         <div className={styles.container}>
             <h2 className={styles.title}>The best Movies:</h2>
             <div className={styles.movies_container}>
-                {topMovies === 0 && <p>Loading...</p>}
-                {topMovies && topMovies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
+                {topMovies.length === 0 && <p>Loading...</p>}
+                {topMovies.length > 0 && topMovies.map((movie) => <MovieCard key={movie.id} movie={movie} />)}
             </div>
 
         </div>
