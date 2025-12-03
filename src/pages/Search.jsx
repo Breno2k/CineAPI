@@ -7,6 +7,9 @@ import { useSearchParams } from "react-router-dom"
 // Components
 import MovieCard from "../components/MovieCard"
 
+// Hooks
+import { useSelectMovies } from "../hooks/useSelectMovies"
+
 // CSS
 import styles from "./Search.module.css"
 
@@ -18,16 +21,9 @@ const Search = () => {
 
     const [searchParams] = useSearchParams()
 
-    const [movies, setMovies] = useState([])
+    const { movies, selectMovies } = useSelectMovies()
+
     const query = searchParams.get("q")
-
-    const getSearchMovies = async (url) => {
-
-        const res = await fetch(url)
-        const data = await res.json();
-
-        setMovies(data.results)
-    };
 
     // isto vai chamar a API toda vez que a página for carregada
     useEffect(() => {
@@ -36,7 +32,7 @@ const Search = () => {
 
         const searchWithQueryUrl = `${searchURL}?${apiKey}&query=${query}`
 
-        getSearchMovies(searchWithQueryUrl)
+        selectMovies(searchWithQueryUrl)
 
     }, [query])
 

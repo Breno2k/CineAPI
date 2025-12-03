@@ -2,7 +2,7 @@
 import styles from "./Movie.module.css"
 
 // React
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 
 // React router
 import { useParams } from "react-router-dom"
@@ -10,8 +10,8 @@ import { useParams } from "react-router-dom"
 // Icons
 import { BsGraphUp, BsWallet2, BsHourglassSplit, BsFillFileEarmarkTextFill } from "react-icons/bs"
 
-// Components
-import MovieCard from "../components/MovieCard"
+// Hooks
+import { useSelectMovies } from "../hooks/useSelectMovies"
 
 // Dados da API
 const moviesURL = import.meta.env.VITE_API;
@@ -22,25 +22,19 @@ const Movie = () => {
 
     const { id } = useParams()
 
-
-    const [movie, setMovie] = useState(null)
-
-    const getMovie = async (url) => {
-
-        const res = await fetch(url)
-        const data = await res.json();
-
-        setMovie(data)
-    }
+    const { movies, selectMovies } = useSelectMovies()
 
     useEffect(() => {
 
         const movieUrl = `${moviesURL}${id}?${apiKey}`
 
-        getMovie(movieUrl)
+        selectMovies(movieUrl)
     }, [])
 
     const formatCurrency = (number) => {
+
+        if (!number || number === 0) return "—";
+
         return number.toLocaleString("en-US", {
             style: "currency",
             currency: "USD",
@@ -49,24 +43,24 @@ const Movie = () => {
 
     return (
         <div className={styles.movie_page}>
-            {movie && (
+            {movies && (
                 <div className={styles.movie_card}>
                     {/* Lado esquerdo - Imagem */}
                     <div className={styles.movie_poster}>
-                        <img src={imageUrl + movie.poster_path} alt={movie.title} />
+                        <img src={imageUrl + movies.poster_path} alt={movies.title} />
                     </div>
 
                     {/* Lado direito - Informações */}
                     <div className={styles.movie_content}>
-                        <h2>{movie.title}</h2>
-                        {movie.tagline && <p className="tagline">{movie.tagline}</p>}
+                        <h2>{movies.title}</h2>
+                        {movies.tagline && <p className="tagline">{movies.tagline}</p>}
 
                         <div className={styles.info_container}>
                             <div className={styles.info}>
                                 <BsWallet2 />
                                 <div>
                                     <h3>Budget</h3>
-                                    <p>{formatCurrency(movie.budget)}</p>
+                                    <p>{formatCurrency(movies.budget)}</p>
                                 </div>
                             </div>
 
@@ -74,7 +68,7 @@ const Movie = () => {
                                 <BsGraphUp />
                                 <div>
                                     <h3>Revenue</h3>
-                                    <p>{formatCurrency(movie.revenue)}</p>
+                                    <p>{formatCurrency(movies.revenue)}</p>
                                 </div>
                             </div>
 
@@ -82,14 +76,14 @@ const Movie = () => {
                                 <BsHourglassSplit />
                                 <div>
                                     <h3>Duration</h3>
-                                    <p>{movie.runtime} min</p>
+                                    <p>{movies.runtime} min</p>
                                 </div>
                             </div>
                         </div>
 
                         <div className={styles.description}>
                             <h3><BsFillFileEarmarkTextFill /> Description</h3>
-                            <p>{movie.overview}</p>
+                            <p>{movies.overview}</p>
                         </div>
                     </div>
                 </div>
